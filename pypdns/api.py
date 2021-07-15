@@ -20,7 +20,7 @@ class Api_PDNS:
     def connect(self, login: str, password: str) -> None:
         data = {"identity": login, "password": password}
         url = "%s/login" % self.base_url
-        response = self.__make_requests("POST", url + "/login", data=data)
+        response = self.__make_requests("POST", url, data=data)
         if response.status_code == 200:
             res = response.json()
             self.headers = {"Authorization": "Bearer %s" % res["access_token"]}
