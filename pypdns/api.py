@@ -31,7 +31,7 @@ class Api_PDNS:
         response = self.__make_requests("GET", url, headers=self.headers)
         if response.status_code == 200:
             return response.json()
-
+    
     def add_domain(self, domain: str) -> bool:
         url = "%s/dn/%s" % (self.base_url, domain)
         response = self.__make_requests("POST", url, headers=self.headers)
@@ -63,14 +63,31 @@ class Api_PDNS:
         if response.status_code == 200:
             return response.json()
 
-    
-    def get_alerts(self,days=1,limit=10,filter_by="domainName",sort_by="domainName",export="json") -> Dict:
+    def get_alerts(
+        self,
+        days=1,
+        limit=10,
+        filter_by="domainName",
+        sort_by="domainName",
+        export="json",
+    ) -> Dict:
         url = "%s/alert" % self.base_url
-        params = {"limit": limit, "days": days, "filter":'',"filter_by":filter_by,"sort_by":sort_by,"export":export} 
+        params = {
+            "limit": limit,
+            "days": days,
+            "filter": "",
+            "filter_by": filter_by,
+            "sort_by": sort_by,
+            "export": export,
+        }
         response = self.__make_requests("GET", url, headers=self.headers, params=params)
-        print(response.status_code)
+
         if response.status_code == 200:
-            return response.json()
+            if export == "json":
+                return response.json()
+            if export == "csv":
+                return response.text
+        return {}
 
     def __make_requests(
         self, method: str, url: str, headers={}, data={}, params={}
