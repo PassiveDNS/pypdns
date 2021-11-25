@@ -63,15 +63,24 @@ class Api_PDNS:
         if response.status_code == 200:
             return response.json()
 
+    
+    def get_alerts(self,days=1,limit=10,filter_by="domainName",sort_by="domainName",export="json") -> Dict:
+        url = "%s/alert" % self.base_url
+        params = {"limit": limit, "days": days, "filter":'',"filter_by":filter_by,"sort_by":sort_by,"export":export} 
+        response = self.__make_requests("GET", url, headers=self.headers, params=params)
+        print(response.status_code)
+        if response.status_code == 200:
+            return response.json()
+
     def __make_requests(
-        self, method: str, url: str, headers={}, data={}
+        self, method: str, url: str, headers={}, data={}, params={}
     ) -> requests.Response:
         try:
             response = None
             if method == "POST":
                 response = self.request[method](url, json=data, headers=headers)
             else:
-                response = self.request[method](url, data=data, headers=headers)
+                response = self.request[method](url, params=params, headers=headers)
         except KeyError:
             logging.error("Unsupported method %s " % method)
 
