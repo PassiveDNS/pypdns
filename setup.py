@@ -11,16 +11,11 @@ with open("README.md", "r", encoding="utf-8") as readme_fp:
     long_description = readme_fp.read()
 
 setup(
-    name="pypdns",
+    name="python3-pdns",
     version="1.0",
     description="Binding python for passiveDNS Application",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    classifiers=[
-        "'License :: OSI Approved :: BSD License'",
-        "Development Status :: 5 - Production/Stable",
-        "Programming Language :: Python :: 3",
-    ],
     keywords="passiveDNS threat intel api",
     url="https://github.com/PassivePDNS/pypdns",
     author="Sebastien Larinier @sebdraven",
